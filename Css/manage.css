@@ -1,0 +1,95 @@
+.users-card {
+    width: 950px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.add-button {
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.add-button:hover {
+    background: #1d4ed8;
+}
+
+.search-box {
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    width: 300px;
+    height: 40px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    background: #f8fafc;
+    color: #334155;
+    padding: 14px;
+    font-size: 14px;
+}
+
+td {
+    padding: 14px;
+    border-top: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 14px;
+}
+
+.active {
+    background: #dcfce7;
+    color: #166534;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.inactive {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.edit-button,
+.deactivate-button,
+.activate-button {
+    width: auto;
+    height: auto;
+    padding: 7px 10px;
+    margin: 2px;
+    font-size: 12px;
+}
+
+.edit-button {
+    background: #2563eb;
+}
+
+.deactivate-button {
+    background: #dc2626;
+}
+
+.activate-button {
+    background: #16a34a;
+}

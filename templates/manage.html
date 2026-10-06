@@ -1,0 +1,137 @@
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manage Users - Task Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='manage.css') }}">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="card users-card">
+
+            <div class="header">
+
+                <div>
+                    <h1>Manage Users</h1>
+                    <p>View and manage all users</p>
+                </div>
+
+                <a href="/create-user" class="add-button">
+                    + Create User
+                </a>
+
+            </div>
+
+
+            <div class="search-box">
+
+                <input type="text"
+                       placeholder="Search users...">
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Bhanu Pratap</td>
+                            <td>bhanu@gmail.com</td>
+                            <td>Team Member</td>
+
+                            <td>
+                                <span class="active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="edit-button">
+                                    Edit
+                                </button>
+
+                                <button class="deactivate-button">
+                                    Deactivate
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Rahul Kumar</td>
+                            <td>rahul@gmail.com</td>
+                            <td>Admin</td>
+
+                            <td>
+                                <span class="active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="edit-button">
+                                    Edit
+                                </button>
+
+                                <button class="deactivate-button">
+                                    Deactivate
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Amit Sharma</td>
+                            <td>amit@gmail.com</td>
+                            <td>Team Member</td>
+
+                            <td>
+                                <span class="inactive">
+                                    Inactive
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="edit-button">
+                                    Edit
+                                </button>
+
+                                <button class="activate-button">
+                                    Activate
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+```
