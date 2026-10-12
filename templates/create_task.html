@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Task - Task Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="card create-task-card">
+
+            <div class="task-heading">
+                <h1>Create New Task</h1>
+                <p>Create a task and assign it to a team member.</p>
+            </div>
+
+            <form>
+
+                <div class="form-group">
+                    <label>Task Title</label>
+
+                    <input type="text"
+                           name="title"
+                           placeholder="Enter task title"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+
+                    <textarea name="description"
+                              rows="4"
+                              placeholder="Enter task description"
+                              required></textarea>
+                </div>
+
+                <div class="task-form-row">
+
+                    <div class="form-group">
+                        <label>Assign To</label>
+
+                        <select name="assigned_to" required>
+                            <option value="">Select team member</option>
+                            <option value="Bhanu">Bhanu Pratap</option>
+                            <option value="Rahul">Rahul Kumar</option>
+                            <option value="Amit">Amit Sharma</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Priority</label>
+
+                        <select name="priority" required>
+                            <option value="">Select priority</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="task-form-row">
+
+                    <div class="form-group">
+                        <label>Due Date</label>
+
+                        <input type="date"
+                               name="due_date"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+
+                        <select name="status" required>
+                            <option value="New">New</option>
+                            <option value="Assigned">Assigned</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="task-form-buttons">
+
+                    <button type="submit">
+                        Create Task
+                    </button>
+
+                    <a href="/manage-tasks">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+

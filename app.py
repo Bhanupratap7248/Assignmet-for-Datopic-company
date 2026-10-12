@@ -7,7 +7,7 @@ app = Flask(__name__, static_folder="css")
 
 @app.route("/")
 def home():
-    return render_template("manage.html")
+    return render_template("my_task.html")
 
 
 @app.route("/create-user", methods=["GET", "POST"])

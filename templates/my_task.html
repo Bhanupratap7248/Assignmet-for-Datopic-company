@@ -1,0 +1,171 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Tasks - Task Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='my_task.css') }}">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="card my-tasks-card">
+
+            <div class="header">
+                <div>
+                    <h1>My Tasks</h1>
+                    <p>View and track your assigned tasks</p>
+                </div>
+
+                <a href="/manage-tasks" class="add-button">
+                    All Tasks
+                </a>
+            </div>
+
+            <div class="my-task-stats">
+
+                <div class="stat-box">
+                    <p>Total Tasks</p>
+                    <h2>5</h2>
+                </div>
+
+                <div class="stat-box">
+                    <p>Pending</p>
+                    <h2>2</h2>
+                </div>
+
+                <div class="stat-box">
+                    <p>In Progress</p>
+                    <h2>1</h2>
+                </div>
+
+                <div class="stat-box">
+                    <p>Completed</p>
+                    <h2>2</h2>
+                </div>
+
+            </div>
+
+            <div class="task-filters">
+
+                <input type="text"
+                       placeholder="Search my tasks...">
+
+                <select>
+                    <option value="">All Status</option>
+                    <option>New</option>
+                    <option>Assigned</option>
+                    <option>In Progress</option>
+                    <option>On Hold</option>
+                    <option>Completed</option>
+                    <option>Cancelled</option>
+                </select>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Task Title</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <strong>Login Page Testing</strong>
+                                <small>Test login functionality</small>
+                            </td>
+
+                            <td>
+                                <span class="priority-high">High</span>
+                            </td>
+
+                            <td>
+                                <span class="status-progress">In Progress</span>
+                            </td>
+
+                            <td>2026-10-15</td>
+
+                            <td>
+                                <a href="/task-details" class="view-button">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <strong>Database Setup</strong>
+                                <small>Create database tables</small>
+                            </td>
+
+                            <td>
+                                <span class="priority-medium">Medium</span>
+                            </td>
+
+                            <td>
+                                <span class="status-pending">Assigned</span>
+                            </td>
+
+                            <td>2026-10-18</td>
+
+                            <td>
+                                <a href="/task-details" class="view-button">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <strong>Dashboard Design</strong>
+                                <small>Complete dashboard interface</small>
+                            </td>
+
+                            <td>
+                                <span class="priority-low">Low</span>
+                            </td>
+
+                            <td>
+                                <span class="status-completed">Completed</span>
+                            </td>
+
+                            <td>2026-10-10</td>
+
+                            <td>
+                                <a href="/task-details" class="view-button">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+```

@@ -1,0 +1,100 @@
+
+.create-task-card {
+    width: 700px;
+    max-width: 95%;
+    padding: 35px;
+}
+
+.task-heading {
+    margin-bottom: 28px;
+}
+
+.task-heading h1 {
+    color: #1e293b;
+    font-size: 25px;
+}
+
+.task-heading p {
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.create-task-card .form-group {
+    margin-bottom: 20px;
+}
+
+.create-task-card input,
+.create-task-card select,
+.create-task-card textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.create-task-card input,
+.create-task-card select {
+    height: 44px;
+}
+
+.create-task-card textarea {
+    resize: vertical;
+}
+
+.create-task-card input:focus,
+.create-task-card select:focus,
+.create-task-card textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.task-form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.task-form-row .form-group {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-form-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 8px;
+}
+
+.task-form-buttons button {
+    flex: 1;
+    margin-top: 0;
+}
+
+.task-form-buttons a {
+    padding: 14px 24px;
+    background: #e2e8f0;
+    color: #334155;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.task-form-buttons a:hover {
+    background: #cbd5e1;
+}
+
+@media (max-width: 600px) {
+    .create-task-card {
+        padding: 22px;
+    }
+
+    .task-form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
