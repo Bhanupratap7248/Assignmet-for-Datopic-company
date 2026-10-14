@@ -181,9 +181,59 @@ def manage_tasks():
     return render_template("manage_tasks.html", tasks=tasks)
 
 
-@app.route("/edit-task")
+@app.route("/edit-task", methods=["GET", "POST"])
 def edit_task():
-    return render_template("edit_task.html")
+    task_id = request.args.get("id")
+
+    connection = get_db_connection()
+
+    task = connection.execute(
+        "SELECT * FROM tasks WHERE id = ?",
+        (task_id,)
+    ).fetchone()
+
+    if not task:
+        connection.close()
+        return "Task not found!", 404
+
+    users = connection.execute(
+        "SELECT id, name FROM users WHERE role = 'Team Member' AND status = 'Active'"
+    ).fetchall()
+
+    if request.method == "POST":
+        title = request.form["title"].strip()
+        description = request.form.get("description", "").strip()
+        assigned_to = request.form.get("assigned_to")
+        priority = request.form["priority"]
+        status = request.form["status"]
+        deadline = request.form.get("deadline") or None
+
+        if not title or not assigned_to:
+            connection.close()
+            return "Task title and team member are required!", 400
+
+        connection.execute(
+            """
+            UPDATE tasks
+            SET title = ?, description = ?, assigned_to = ?,
+                priority = ?, status = ?, deadline = ?
+            WHERE id = ?
+            """,
+            (title, description, assigned_to, priority, status, deadline, task_id)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("manage_tasks"))
+
+    connection.close()
+
+    return render_template(
+        "edit_task.html",
+        task=task,
+        users=users
+    )
 
 
 @app.route("/my-tasks")
