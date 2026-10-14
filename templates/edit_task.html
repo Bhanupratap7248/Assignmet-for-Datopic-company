@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='edit_task.css') }}">
+</head>
+
+<body class="edit-task-page">
+
+    <div class="edit-task-container">
+
+        <div class="edit-task-header">
+            <div>
+                <h1>Edit Task</h1>
+                <p>Update task information and assignment.</p>
+            </div>
+
+            <a href="/manage-tasks" class="edit-back-button">
+                Back to Tasks
+            </a>
+        </div>
+
+        <div class="edit-task-card">
+
+            <form action="/edit-task" method="POST">
+
+                <div class="edit-form-group">
+                    <label for="title">Task Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="Website Testing"
+                        required>
+                </div>
+
+                <div class="edit-form-group">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="4"
+                        required>Test the website and report any bugs found.</textarea>
+                </div>
+
+                <div class="edit-form-row">
+
+                    <div class="edit-form-group">
+                        <label for="assigned_to">Assign To</label>
+
+                        <select id="assigned_to" name="assigned_to" required>
+                            <option value="Rahul Sharma" selected>
+                                Rahul Sharma
+                            </option>
+                            <option value="Amit Kumar">Amit Kumar</option>
+                            <option value="Priya Singh">Priya Singh</option>
+                        </select>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="priority">Priority</label>
+
+                        <select id="priority" name="priority">
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option selected>High</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="edit-form-row">
+
+                    <div class="edit-form-group">
+                        <label for="due_date">Due Date</label>
+                        <input
+                            type="date"
+                            id="due_date"
+                            name="due_date"
+                            value="2026-10-25"
+                            required>
+                    </div>
+
+                    <div class="edit-form-group">
+                        <label for="status">Status</label>
+
+                        <select id="status" name="status">
+                            <option>Pending</option>
+                            <option selected>In Progress</option>
+                            <option>Completed</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="edit-task-actions">
+                    <a href="/manage-tasks" class="edit-cancel-button">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="edit-save-button">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

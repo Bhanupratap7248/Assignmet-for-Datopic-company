@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='task_details.css') }}">
+</head>
+
+<body class="task-details-page">
+
+    <div class="task-details-container">
+
+        <div class="task-details-header">
+            <div>
+                <h1>Task Details</h1>
+                <p>View task information and update progress.</p>
+            </div>
+
+            <a href="/manage-tasks" class="back-button">
+                Back to Tasks
+            </a>
+        </div>
+
+        <div class="task-details-card">
+
+            <div class="task-title-section">
+                <div>
+                    <span class="task-id">TASK-001</span>
+                    <h2>Website Testing</h2>
+                    <p>Test the website and report any bugs found.</p>
+                </div>
+
+                <span class="detail-status in-progress">
+                    In Progress
+                </span>
+            </div>
+
+            <hr>
+
+            <div class="task-information">
+
+                <div class="detail-item">
+                    <label>Assigned To</label>
+                    <p>Rahul Sharma</p>
+                </div>
+
+                <div class="detail-item">
+                    <label>Priority</label>
+                    <p class="high-priority">High</p>
+                </div>
+
+                <div class="detail-item">
+                    <label>Due Date</label>
+                    <p>25 October 2026</p>
+                </div>
+
+                <div class="detail-item">
+                    <label>Created By</label>
+                    <p>Admin</p>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h3>Update Task Status</h3>
+
+            <form class="task-update-form">
+
+                <div class="form-group">
+                    <label for="status">Select Status</label>
+
+                    <select id="status" name="status">
+                        <option>Pending</option>
+                        <option selected>In Progress</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="progress">Progress Update</label>
+
+                    <textarea
+                        id="progress"
+                        name="progress"
+                        rows="4"
+                        placeholder="Write your progress here..."></textarea>
+                </div>
+
+                <button type="button" class="update-button">
+                    Update Task
+                </button>
+
+            </form>
+
+            <hr>
+
+            <h3>Comments & Updates</h3>
+
+            <div class="comment-box">
+                <strong>Rahul Sharma</strong>
+                <span>2 hours ago</span>
+                <p>Testing has started. Login and registration modules are being checked.</p>
+            </div>
+
+            <form class="comment-form">
+
+                <div class="form-group">
+                    <label for="comment">Add Comment</label>
+
+                    <textarea
+                        id="comment"
+                        name="comment"
+                        rows="3"
+                        placeholder="Write a comment..."></textarea>
+                </div>
+
+                <button type="button" class="comment-button">
+                    Add Comment
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

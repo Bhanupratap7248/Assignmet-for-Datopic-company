@@ -1,6 +1,5 @@
 import sqlite3
 
-
 DATABASE = "task.db"
 
 
@@ -22,6 +21,20 @@ def create_tables():
             role TEXT NOT NULL,
             status TEXT NOT NULL DEFAULT 'Active',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            description TEXT,
+            assigned_to INTEGER,
+            priority TEXT NOT NULL DEFAULT 'Medium',
+            deadline DATE,
+            status TEXT NOT NULL DEFAULT 'Pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (assigned_to) REFERENCES users(id)
         )
     """)
 

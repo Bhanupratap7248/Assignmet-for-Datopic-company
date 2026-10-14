@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+
+
+<link rel="stylesheet"
+  href="{{ url_for('static', filename='edit_user.css') }}">
+
+
+</head>
+
+<body class="edit-user-page">
+
+<div class="edit-user-container">
+
+    <div class="edit-user-header">
+        <div>
+            <h1>Edit User</h1>
+            <p>Update user information and account status.</p>
+        </div>
+
+        <a href="/manage-users" class="user-back-button">
+            Back to Users
+        </a>
+    </div>
+
+    <div class="edit-user-card">
+
+        <div class="user-profile-heading">
+            <div class="user-avatar">
+                {{ user.name[0] | upper }}
+            </div>
+
+            <div>
+                <h2>{{ user.name }}</h2>
+                <p>Update the details below.</p>
+            </div>
+        </div>
+
+        <form action="/edit-user?id={{ user.id }}" method="POST">
+
+            <div class="user-form-group">
+                <label for="name">Full Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ user.name }}"
+                    required>
+            </div>
+
+            <div class="user-form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ user.email }}"
+                    required>
+            </div>
+
+            <div class="user-form-group">
+                <label for="role">User Role</label>
+                <select id="role" name="role" required>
+                    <option value="Admin"
+                        {% if user.role == 'Admin' %}selected{% endif %}>
+                        Admin
+                    </option>
+
+                    <option value="Team Member"
+                        {% if user.role == 'Team Member' %}selected{% endif %}>
+                        Team Member
+                    </option>
+                </select>
+            </div>
+
+            <div class="user-form-group">
+                <label for="status">Account Status</label>
+                <select id="status" name="status" required>
+                    <option value="Active"
+                        {% if user.status == 'Active' %}selected{% endif %}>
+                        Active
+                    </option>
+
+                    <option value="Inactive"
+                        {% if user.status == 'Inactive' %}selected{% endif %}>
+                        Inactive
+                    </option>
+                </select>
+            </div>
+
+            <div class="user-form-actions">
+                <a href="/manage-users" class="user-cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit" class="user-save-button">
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

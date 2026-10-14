@@ -1,0 +1,192 @@
+/* Task Details Page */
+
+.task-details-page {
+    background: #f4f6f9;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 30px 15px;
+    color: #333;
+}
+
+.task-details-container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.task-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.task-details-header h1 {
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.task-details-header p {
+    color: #777;
+    margin-top: 0;
+}
+
+.back-button {
+    background: #ffffff;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    padding: 10px 16px;
+    border-radius: 6px;
+}
+
+.task-details-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.task-title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.task-title-section h2 {
+    margin: 10px 0;
+}
+
+.task-title-section p {
+    color: #666;
+}
+
+.task-id {
+    color: #3563e9;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.detail-status {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.in-progress {
+    background: #fff0d8;
+    color: #a86600;
+}
+
+.task-information {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin: 25px 0;
+}
+
+.detail-item label {
+    color: #777;
+    font-size: 13px;
+}
+
+.detail-item p {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.high-priority {
+    color: #d93025;
+}
+
+.task-details-card hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 25px 0;
+}
+
+.task-details-card h3 {
+    margin-bottom: 20px;
+}
+
+.task-update-form,
+.comment-form {
+    max-width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group select,
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid #d5d9e0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.update-button,
+.comment-button {
+    background: #3563e9;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.comment-box {
+    background: #f8f9fc;
+    border: 1px solid #eee;
+    padding: 16px;
+    border-radius: 7px;
+    margin-bottom: 22px;
+}
+
+.comment-box span {
+    color: #888;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.comment-box p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+    .task-details-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .task-details-card {
+        padding: 20px;
+    }
+
+    .task-title-section {
+        flex-direction: column;
+    }
+
+    .task-information {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+}

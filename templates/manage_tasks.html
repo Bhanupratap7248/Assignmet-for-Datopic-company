@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Tasks - Task Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='manage_task.css') }}">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="card tasks-card">
+
+            <div class="header">
+                <div>
+                    <h1>Manage Tasks</h1>
+                    <p>View and manage all assigned tasks</p>
+                </div>
+
+                <a href="/create-task" class="add-button">
+                    + Create Task
+                </a>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Assigned To</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for task in tasks %}
+                        <tr>
+                            <td>
+                                <strong>{{ task.title }}</strong>
+                                <small>{{ task.description }}</small>
+                            </td>
+
+                            <td>
+                                {{ task.assigned_name or 'Not Assigned' }}
+                            </td>
+
+                            <td>
+                                <span class="priority-{{ task.priority|lower }}">
+                                    {{ task.priority }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="status-{{ task.status|lower|replace(' ', '-') }}">
+                                    {{ task.status }}
+                                </span>
+                            </td>
+
+                            <td>{{ task.deadline or 'Not Set' }}</td>
+
+                            <td>
+                                <a href="/task-details?id={{ task.id }}"
+                                   class="view-button">
+                                    View
+                                </a>
+
+                                <a href="/edit-task?id={{ task.id }}"
+                                   class="edit-button">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td colspan="6">No tasks found. Create your first task!</td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="task-footer">
+                Total Tasks: {{ tasks|length }}
+            </div>
+
+            <p>
+                <a href="/dashboard">Back to Dashboard</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

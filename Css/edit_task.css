@@ -1,0 +1,138 @@
+/* Edit Task Page */
+
+.edit-task-page {
+    margin: 0;
+    padding: 30px 15px;
+    background: #f4f6f9;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.edit-task-container {
+    max-width: 850px;
+    margin: auto;
+}
+
+.edit-task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.edit-task-header h1 {
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.edit-task-header p {
+    color: #777;
+    margin-top: 0;
+}
+
+.edit-back-button {
+    text-decoration: none;
+    color: #333;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+.edit-task-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.edit-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.edit-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.edit-form-group label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.edit-form-group input,
+.edit-form-group select,
+.edit-form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #d5d9e0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    background: white;
+}
+
+.edit-form-group input:focus,
+.edit-form-group select:focus,
+.edit-form-group textarea:focus {
+    outline: none;
+    border-color: #3563e9;
+}
+
+.edit-form-group textarea {
+    resize: vertical;
+}
+
+.edit-task-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.edit-cancel-button,
+.edit-save-button {
+    padding: 11px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.edit-cancel-button {
+    border: 1px solid #ddd;
+    color: #333;
+    background: white;
+}
+
+.edit-save-button {
+    border: none;
+    background: #3563e9;
+    color: white;
+}
+
+.edit-save-button:hover {
+    background: #244bc4;
+}
+
+@media (max-width: 600px) {
+    .edit-task-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .edit-task-card {
+        padding: 20px;
+    }
+
+    .edit-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

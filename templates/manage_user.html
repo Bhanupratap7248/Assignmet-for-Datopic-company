@@ -1,8 +1,10 @@
-```html
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users - Task Management</title>
 
     <link rel="stylesheet"
@@ -12,11 +14,9 @@
 <body>
 
     <div class="page">
-
         <div class="card users-card">
 
             <div class="header">
-
                 <div>
                     <h1>Manage Users</h1>
                     <p>View and manage all users</p>
@@ -25,22 +25,15 @@
                 <a href="/create-user" class="add-button">
                     + Create User
                 </a>
-
             </div>
-
 
             <div class="search-box">
-
-                <input type="text"
-                       placeholder="Search users...">
-
+                <input type="text" placeholder="Search users...">
             </div>
-
 
             <div class="table-container">
 
                 <table>
-
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -52,86 +45,44 @@
                     </thead>
 
                     <tbody>
-
+                        {% for user in users %}
                         <tr>
-                            <td>Bhanu Pratap</td>
-                            <td>bhanu@gmail.com</td>
-                            <td>Team Member</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
 
                             <td>
-                                <span class="active">
-                                    Active
-                                </span>
+                                {% if user.status == 'Active' %}
+                                    <span class="active">Active</span>
+                                {% else %}
+                                    <span class="inactive">Inactive</span>
+                                {% endif %}
                             </td>
 
                             <td>
-                                <button class="edit-button">
-                                    Edit
-                                </button>
-
-                                <button class="deactivate-button">
-                                    Deactivate
-                                </button>
+                                <a href="/edit-user?id={{ user.id }}"
+                                   class="edit-button">Edit</a>
                             </td>
                         </tr>
 
-
+                        {% else %}
                         <tr>
-                            <td>Rahul Kumar</td>
-                            <td>rahul@gmail.com</td>
-                            <td>Admin</td>
-
-                            <td>
-                                <span class="active">
-                                    Active
-                                </span>
-                            </td>
-
-                            <td>
-                                <button class="edit-button">
-                                    Edit
-                                </button>
-
-                                <button class="deactivate-button">
-                                    Deactivate
-                                </button>
-                            </td>
+                            <td colspan="5">No users found.</td>
                         </tr>
-
-
-                        <tr>
-                            <td>Amit Sharma</td>
-                            <td>amit@gmail.com</td>
-                            <td>Team Member</td>
-
-                            <td>
-                                <span class="inactive">
-                                    Inactive
-                                </span>
-                            </td>
-
-                            <td>
-                                <button class="edit-button">
-                                    Edit
-                                </button>
-
-                                <button class="activate-button">
-                                    Activate
-                                </button>
-                            </td>
-                        </tr>
-
+                        {% endfor %}
                     </tbody>
 
                 </table>
 
             </div>
 
-        </div>
+            <br>
 
+            <a href="/dashboard">Back to Dashboard</a>
+
+        </div>
     </div>
 
 </body>
-
 </html>
-```
+

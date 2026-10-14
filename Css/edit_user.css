@@ -1,0 +1,153 @@
+/* Edit User Page */
+
+.edit-user-page {
+    margin: 0;
+    padding: 30px 15px;
+    background: #f4f6f9;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.edit-user-container {
+    max-width: 700px;
+    margin: auto;
+}
+
+.edit-user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.edit-user-header h1 {
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.edit-user-header p {
+    color: #777;
+    margin-top: 0;
+}
+
+.user-back-button {
+    text-decoration: none;
+    color: #333;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+.edit-user-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.user-profile-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #e6edff;
+    color: #3563e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.user-profile-heading h2 {
+    margin: 0 0 6px;
+    font-size: 20px;
+}
+
+.user-profile-heading p {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.user-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.user-form-group label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.user-form-group input,
+.user-form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #d5d9e0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+}
+
+.user-form-group input:focus,
+.user-form-group select:focus {
+    outline: none;
+    border-color: #3563e9;
+}
+
+.user-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.user-cancel-button,
+.user-save-button {
+    padding: 11px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.user-cancel-button {
+    text-decoration: none;
+    color: #333;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+.user-save-button {
+    color: white;
+    background: #3563e9;
+    border: none;
+}
+
+.user-save-button:hover {
+    background: #244bc4;
+}
+
+@media (max-width: 600px) {
+    .edit-user-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .edit-user-card {
+        padding: 20px;
+    }
+}
