@@ -104,3 +104,65 @@
         flex-direction: column;
     }
 }
+/* Fix Manage Tasks Layout */
+
+* {
+    box-sizing: border-box;
+}
+
+.manage-tasks-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 24px;
+    overflow: hidden;
+}
+
+.manage-tasks-container .table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.manage-tasks-container table {
+    width: 100%;
+    min-width: 750px;
+    border-collapse: collapse;
+}
+
+.manage-tasks-container th,
+.manage-tasks-container td {
+    padding: 12px;
+    overflow-wrap: anywhere;
+}
+
+.manage-tasks-container .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.manage-tasks-container form {
+    max-width: 100%;
+}
+
+.manage-tasks-container button,
+.manage-tasks-container select {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .manage-tasks-container {
+        padding: 14px;
+        margin: 10px auto;
+    }
+
+    .manage-tasks-container .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .manage-tasks-container .table-container {
+        overflow-x: auto;
+    }
+}

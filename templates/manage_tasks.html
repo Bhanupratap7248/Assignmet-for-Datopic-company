@@ -79,7 +79,16 @@
                                 <a href="/edit-task?id={{ task.id }}"
                                    class="edit-button">
                                     Edit
-                                </a>
+                                </a> 
+                                
+                                <form action="/delete-task" method="POST"onsubmit="return confirm('Are you sure you want to delete this task?');"
+                                          style="display: inline;">
+
+                                            <input type="hidden" name="task_id" value="{{ task.id }}">
+
+                                          <button type="submit">Delete</button>
+
+                                 </form>
                             </td>
                         </tr>
 

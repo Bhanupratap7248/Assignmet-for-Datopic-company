@@ -1,15 +1,16 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import create_tables, get_db_connection
 
 app = Flask(__name__, static_folder="css")
+app.secret_key = "task-management-secret-key-change-later"
 
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        email = request.form["email"]
+        email = request.form["email"].strip()
         password = request.form["password"]
 
         connection = get_db_connection()
@@ -22,7 +23,24 @@ def home():
         connection.close()
 
         if user and check_password_hash(user["password"], password):
-            return redirect(url_for("dashboard"))
+
+            if user["status"] != "Active":
+                return "Your account is inactive. Please contact the administrator."
+
+            session["user_id"] = user["id"]
+            session["user_name"] = user["name"]
+            session["user_role"] = user["role"]
+
+            if user["role"] in ["Admin", "Manager"]:
+                return redirect(url_for("dashboard"))
+
+            elif user["role"] == "Team Member":
+                return redirect(
+                    url_for("my_tasks", user_id=user["id"])
+                )
+
+            session.clear()
+            return "Invalid user role!"
 
         return "Invalid email or password!"
 
@@ -31,7 +49,60 @@ def home():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    if "user_id" not in session:
+        return redirect(url_for("home"))
+
+    if session.get("user_role") not in ["Admin", "Manager"]:
+        return "Access Denied!", 403
+
+    connection = get_db_connection()
+
+    total_users = connection.execute(
+        "SELECT COUNT(*) FROM users"
+    ).fetchone()[0]
+
+    total_tasks = connection.execute(
+        "SELECT COUNT(*) FROM tasks"
+    ).fetchone()[0]
+
+    pending_tasks = connection.execute(
+        "SELECT COUNT(*) FROM tasks WHERE status = 'Pending'"
+    ).fetchone()[0]
+
+    in_progress_tasks = connection.execute(
+        "SELECT COUNT(*) FROM tasks WHERE status = 'In Progress'"
+    ).fetchone()[0]
+
+    completed_tasks = connection.execute(
+        "SELECT COUNT(*) FROM tasks WHERE status = 'Completed'"
+    ).fetchone()[0]
+
+    overdue_tasks = connection.execute("""
+        SELECT COUNT(*) FROM tasks
+        WHERE deadline < DATE('now', 'localtime')
+        AND status != 'Completed'
+    """).fetchone()[0]
+
+    recent_tasks = connection.execute("""
+        SELECT tasks.*, users.name AS assigned_name
+        FROM tasks
+        LEFT JOIN users ON tasks.assigned_to = users.id
+        ORDER BY tasks.id DESC
+        LIMIT 5
+    """).fetchall()
+
+    connection.close()
+
+    return render_template(
+        "dashboard.html",
+        total_users=total_users,
+        total_tasks=total_tasks,
+        pending_tasks=pending_tasks,
+        in_progress_tasks=in_progress_tasks,
+        completed_tasks=completed_tasks,
+        overdue_tasks=overdue_tasks,
+        recent_tasks=recent_tasks
+    )
 
 
 @app.route("/create-user", methods=["GET", "POST"])
@@ -163,7 +234,7 @@ def create_task():
     return render_template("create_task.html", users=users)
 
 
-@app.route("/manage-task")
+@app.route("/manage-tasks")
 def manage_tasks():
     connection = get_db_connection()
 
@@ -235,15 +306,213 @@ def edit_task():
         users=users
     )
 
+@app.route("/delete-task", methods=["POST"])
+def delete_task():
+    task_id = request.form.get("task_id")
+
+    connection = get_db_connection()
+
+    task = connection.execute(
+        "SELECT id FROM tasks WHERE id = ?",
+        (task_id,)
+    ).fetchone()
+
+    if not task:
+        connection.close()
+        return "Task not found!", 404
+
+    connection.execute(
+        "DELETE FROM tasks WHERE id = ?",
+        (task_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("manage_tasks"))
+
 
 @app.route("/my-tasks")
 def my_tasks():
-    return render_template("my_tasks.html")
+    user_id = request.args.get("user_id")
+
+    if not user_id:
+        return "Please provide a team member ID. Example: /my-tasks?user_id=1"
+
+    connection = get_db_connection()
+
+    user = connection.execute(
+        "SELECT id, name FROM users WHERE id = ? AND role = 'Team Member'",
+        (user_id,)
+    ).fetchone()
+
+    if not user:
+        connection.close()
+        return "Team member not found!", 404
+
+    tasks = connection.execute(
+        """
+        SELECT *
+        FROM tasks
+        WHERE assigned_to = ?
+        ORDER BY id DESC
+        """,
+        (user_id,)
+    ).fetchall()
+
+    connection.close()
+
+    return render_template(
+        "my_tasks.html",
+        tasks=tasks,
+        user=user
+    )
 
 
 @app.route("/task-details")
 def task_details():
-    return render_template("task_details.html")
+    task_id = request.args.get("id")
+
+    connection = get_db_connection()
+
+    task = connection.execute(
+        """
+        SELECT tasks.*, users.name AS assigned_name, users.email AS assigned_email
+        FROM tasks
+        LEFT JOIN users ON tasks.assigned_to = users.id
+        WHERE tasks.id = ?
+        """,
+        (task_id,)
+    ).fetchone()
+
+    connection.close()
+
+    if not task:
+        return "Task not found!", 404
+
+    return render_template("task_details.html", task=task)
+@app.route("/update-task-status", methods=["POST"])
+def update_task_status():
+    task_id = request.form.get("task_id")
+    user_id = request.form.get("user_id")
+    status = request.form.get("status")
+
+    allowed_statuses = ["Pending", "In Progress", "Completed"]
+
+    if status not in allowed_statuses:
+        return "Invalid task status!", 400
+
+    connection = get_db_connection()
+
+    task = connection.execute(
+        "SELECT id FROM tasks WHERE id = ? AND assigned_to = ?",
+        (task_id, user_id)
+    ).fetchone()
+
+    if not task:
+        connection.close()
+        return "Task not found or not assigned to this user!", 404
+
+    connection.execute(
+        "UPDATE tasks SET status = ? WHERE id = ?",
+        (status, task_id)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("my_tasks", user_id=user_id))
+@app.route("/add-comment", methods=["POST"])
+def add_comment():
+    task_id = request.form.get("task_id")
+    user_id = request.form.get("user_id")
+    comment = request.form.get("comment", "").strip()
+
+    if not comment:
+        return "Comment cannot be empty!", 400
+
+    connection = get_db_connection()
+
+    task = connection.execute(
+        "SELECT id FROM tasks WHERE id = ? AND assigned_to = ?",
+        (task_id, user_id)
+    ).fetchone()
+
+    if not task:
+        connection.close()
+        return "Task not found!", 404
+
+    connection.execute(
+        """
+        INSERT INTO task_comments (task_id, user_id, comment)
+        VALUES (?, ?, ?)
+        """,
+        (task_id, user_id, comment)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("task_comments", task_id=task_id, user_id=user_id))
+
+
+@app.route("/task-comments")
+def task_comments():
+    task_id = request.args.get("task_id")
+    user_id = request.args.get("user_id")
+
+    connection = get_db_connection()
+
+    task = connection.execute(
+        "SELECT * FROM tasks WHERE id = ? AND assigned_to = ?",
+        (task_id, user_id)
+    ).fetchone()
+
+    if not task:
+        connection.close()
+        return "Task not found!", 404
+
+    comments = connection.execute(
+        """
+        SELECT task_comments.*, users.name AS user_name
+        FROM task_comments
+        JOIN users ON task_comments.user_id = users.id
+        WHERE task_comments.task_id = ?
+        ORDER BY task_comments.id DESC
+        """,
+        (task_id,)
+    ).fetchall()
+
+    connection.close()
+
+    return render_template(
+        "task_comments.html",
+        task=task,
+        comments=comments,
+        user_id=user_id
+    )
+@app.route("/overdue-tasks")
+def overdue_tasks():
+    connection = get_db_connection()
+
+    tasks = connection.execute("""
+        SELECT tasks.*, users.name AS assigned_name
+        FROM tasks
+        LEFT JOIN users ON tasks.assigned_to = users.id
+        WHERE tasks.deadline < DATE('now', 'localtime')
+        AND tasks.status != 'Completed'
+        ORDER BY tasks.deadline ASC
+    """).fetchall()
+
+    connection.close()
+
+    return render_template("overdue_tasks.html", tasks=tasks)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("home"))
+
 
 
 if __name__ == "__main__":

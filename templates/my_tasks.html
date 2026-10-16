@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Tasks - Task Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='my_tasks.css') }}">
+</head>
+
+<body>
+
+    <div class="my-tasks-page">
+
+        <div class="my-tasks-card">
+
+            <!-- Header -->
+            <header class="header">
+
+                <div>
+                    <h1>My Tasks</h1>
+                    <p class="welcome">Welcome, {{ user.name }}!</p>
+                    <p>View your assigned tasks and update their status.</p>
+                </div>
+
+                <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+
+            </header>
+
+            <!-- Statistics -->
+            <section class="my-task-stats">
+
+                <div class="stat-box total">
+                    <p>Total Tasks</p>
+                    <h2>{{ tasks|length }}</h2>
+                </div>
+
+                <div class="stat-box pending">
+                    <p>Pending</p>
+                    <h2>{{ tasks|selectattr('status', 'equalto', 'Pending')|list|length }}</h2>
+                </div>
+
+                <div class="stat-box progress">
+                    <p>In Progress</p>
+                    <h2>{{ tasks|selectattr('status', 'equalto', 'In Progress')|list|length }}</h2>
+                </div>
+
+                <div class="stat-box completed">
+                    <p>Completed</p>
+                    <h2>{{ tasks|selectattr('status', 'equalto', 'Completed')|list|length }}</h2>
+                </div>
+
+            </section>
+
+            <!-- Tasks Table -->
+            <section class="tasks-section">
+
+                <div class="section-header">
+                    <div>
+                        <h2>Assigned Tasks</h2>
+                        <p>Manage your assigned work.</p>
+                    </div>
+
+                    <span class="task-count">
+                        {{ tasks|length }} Tasks
+                    </span>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Task ID</th>
+                                <th>Task Details</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Deadline</th>
+                                <th>Task Actions</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for task in tasks %}
+
+                            <tr>
+
+                                <td class="task-id">
+                                    #{{ task.id }}
+                                </td>
+
+                                <td class="task-description">
+                                    <strong>{{ task.title }}</strong>
+                                    <p>
+                                        {{ task.description or 'No description available' }}
+                                    </p>
+                                </td>
+
+                                <td>
+                                    <span class="priority-badge priority-{{ task.priority|lower }}">
+                                        {{ task.priority }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {% if task.status == 'Completed' %}
+                                        <span class="status-badge status-completed">
+                                            Completed
+                                        </span>
+                                    {% elif task.status == 'In Progress' %}
+                                        <span class="status-badge status-progress">
+                                            In Progress
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">
+                                            {{ task.status }}
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="deadline">
+                                    {{ task.deadline or 'Not Set' }}
+                                </td>
+
+                                <!-- View Details and Comments -->
+                                <td>
+                                    <div class="task-actions">
+
+                                        <a href="{{ url_for('task_details', id=task.id) }}"
+                                           class="details-button">
+                                            View Details
+                                        </a>
+
+                                        <a href="{{ url_for('task_comments', task_id=task.id, user_id=user.id) }}"
+                                           class="comments-button">
+                                            Comments
+                                        </a>
+
+                                    </div>
+                                </td>
+
+                                <!-- Update Status -->
+                                <td>
+                                    <form action="{{ url_for('update_task_status') }}"
+                                          method="POST"
+                                          class="status-form">
+
+                                        <input type="hidden"
+                                               name="task_id"
+                                               value="{{ task.id }}">
+
+                                        <input type="hidden"
+                                               name="user_id"
+                                               value="{{ user.id }}">
+
+                                        <select name="status" required>
+
+                                            <option value="Pending"
+                                                {% if task.status == 'Pending' %}selected{% endif %}>
+                                                Pending
+                                            </option>
+
+                                            <option value="In Progress"
+                                                {% if task.status == 'In Progress' %}selected{% endif %}>
+                                                In Progress
+                                            </option>
+
+                                            <option value="Completed"
+                                                {% if task.status == 'Completed' %}selected{% endif %}>
+                                                Completed
+                                            </option>
+
+                                        </select>
+
+                                        <button type="submit">
+                                            Update
+                                        </button>
+
+                                    </form>
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+                                <td colspan="7" class="empty-message">
+                                    No tasks assigned to you yet.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="table-footer">
+                    Total Assigned Tasks:
+                    <strong>{{ tasks|length }}</strong>
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

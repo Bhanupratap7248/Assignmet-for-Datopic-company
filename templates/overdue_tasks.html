@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overdue Tasks</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='overdue_tasks.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Overdue Tasks</h1>
+    <p>Tasks whose deadlines have passed and are not completed.</p>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task Title</th>
+                    <th>Assigned To</th>
+                    <th>Priority</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.assigned_name or 'Unassigned' }}</td>
+                    <td>{{ task.priority }}</td>
+                    <td>{{ task.deadline }}</td>
+                    <td>{{ task.status }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">No overdue tasks found!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="total">
+        Total Overdue Tasks: {{ tasks|length }}
+    </p>
+
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

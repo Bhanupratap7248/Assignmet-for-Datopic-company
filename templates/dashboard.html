@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,214 +13,169 @@
 
 <body>
 
-    <div class="dashboard-layout">
+<div class="dashboard-layout">
 
-        <!-- Sidebar -->
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-        <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-box">TM</div>
+            <div>
+                <h2>Task Manager</h2>
+                <p>Management System</p>
+            </div>
+        </div>
 
-            <div class="sidebar-logo">
-                <div class="logo-box">TM</div>
+        <div class="menu-title">MAIN MENU</div>
 
-                <div>
-                    <h2>Task Manager</h2>
-                    <p>Management System</p>
-                </div>
+        <nav class="sidebar-menu">
+            <a href="{{ url_for('dashboard') }}" class="menu-link active">Dashboard</a>
+            <a href="{{ url_for('create_user') }}" class="menu-link">Create User</a>
+            <a href="{{ url_for('manage_users') }}" class="menu-link">Manage Users</a>
+            <a href="{{ url_for('create_task') }}" class="menu-link">Create Task</a>
+            <a href="{{ url_for('manage_tasks') }}" class="menu-link">Manage Tasks</a>
+            <a href="{{ url_for('my_tasks') }}" class="menu-link">My Tasks</a>
+            <a href="{{ url_for('overdue_tasks') }}" class="menu-link">Overdue Tasks</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <p>Task Management System</p>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back, {{ session.get('user_name', 'User') }}!</p>
             </div>
 
-            <div class="menu-title">MAIN MENU</div>
-
-            <nav class="sidebar-menu">
-
-                <a href="/dashboard" class="menu-link active">
-                    Dashboard
-                </a>
-
-                <a href="/create-user" class="menu-link">
-                    Create User
-                </a>
-
-                <a href="/manage-users" class="menu-link">
-                    Manage Users
-                </a>
-
-                <a href="/create-task" class="menu-link">
-                    Create Task
-                </a>
-
-                <a href="/manage-tasks" class="menu-link">
-                    Manage Tasks
-                </a>
-
-                <a href="/my-tasks" class="menu-link">
-                    My Tasks
-                </a>
-                
-
-            </nav>
-
-            <div class="sidebar-bottom">
-                <p>Task Management System</p>
-                <a href="/login" class="logout-link">Logout</a>
-            </div>
-
-        </aside>
-
-
-        <!-- Main Content -->
-
-        <main class="dashboard-main">
-
-            <header class="dashboard-header">
+            <div class="admin-profile">
+                <div class="profile-icon">
+                    {{ session.get('user_name', 'U')[0]|upper }}
+                </div>
 
                 <div>
-                    <h1>Dashboard</h1>
-                    <p>Welcome back! Here is your task overview.</p>
+                    <strong>{{ session.get('user_name', 'User') }}</strong>
+                    <small>{{ session.get('user_role', 'Member') }}</small>
+                </div>
+            </div>
+        </header>
+
+        <!-- Statistics -->
+        <section class="dashboard-stats">
+
+            <div class="dashboard-stat-card">
+                <p>Total Users</p>
+                <h2>{{ total_users }}</h2>
+                <span>Registered members</span>
+            </div>
+
+            <div class="dashboard-stat-card">
+                <p>Total Tasks</p>
+                <h2>{{ total_tasks }}</h2>
+                <span>All assigned tasks</span>
+            </div>
+
+            <div class="dashboard-stat-card">
+                <p>Pending Tasks</p>
+                <h2>{{ pending_tasks }}</h2>
+                <span>Tasks waiting to start</span>
+            </div>
+
+            <div class="dashboard-stat-card">
+                <p>In Progress</p>
+                <h2>{{ in_progress_tasks }}</h2>
+                <span>Tasks currently active</span>
+            </div>
+
+            <div class="dashboard-stat-card">
+                <p>Completed Tasks</p>
+                <h2>{{ completed_tasks }}</h2>
+                <span>Finished tasks</span>
+            </div>
+
+            <div class="dashboard-stat-card overdue-card">
+                <p>Overdue Tasks</p>
+                <h2>{{ overdue_tasks }}</h2>
+                <span>Past their due date</span>
+            </div>
+
+        </section>
+
+        <!-- Recent Tasks -->
+        <section class="recent-tasks-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Recent Tasks</h2>
+                    <p>Check the latest task updates.</p>
                 </div>
 
-                <div class="admin-profile">
-                    <div class="profile-icon">A</div>
+                <a href="{{ url_for('manage_tasks') }}"
+                   class="all-tasks-button">
+                    View All Tasks
+                </a>
+            </div>
 
-                    <div>
-                        <strong>Admin</strong>
-                        <small>Administrator</small>
-                    </div>
-                </div>
+            <div class="table-container">
 
-            </header>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Task Name</th>
+                            <th>Assigned To</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                        </tr>
+                    </thead>
 
+                    <tbody>
+                        {% for task in recent_tasks %}
+                        <tr>
+                            <td>{{ task['title'] }}</td>
 
-            <!-- Statistics Cards -->
+                            <td>
+                                {{ task['assigned_name'] or 'Not Assigned' }}
+                            </td>
 
-            <section class="dashboard-stats">
+                            <td>
+                                <span class="dash-priority {{ task['priority']|lower }}">
+                                    {{ task['priority'] }}
+                                </span>
+                            </td>
 
-                <div class="dashboard-stat-card">
-                    <p>Total Users</p>
-                    <h2>12</h2>
-                    <span>Registered members</span>
-                </div>
+                            <td>
+                                <span class="dash-status">
+                                    {{ task['status'] }}
+                                </span>
+                            </td>
 
-                <div class="dashboard-stat-card">
-                    <p>Total Tasks</p>
-                    <h2>48</h2>
-                    <span>All assigned tasks</span>
-                </div>
+                            <td>
+                                {{ task['deadline'] or 'No Deadline' }}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5">No tasks available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
 
-                <div class="dashboard-stat-card">
-                    <p>Pending Tasks</p>
-                    <h2>15</h2>
-                    <span>Tasks waiting to start</span>
-                </div>
+                </table>
 
-                <div class="dashboard-stat-card">
-                    <p>Completed Tasks</p>
-                    <h2>25</h2>
-                    <span>Tasks completed</span>
-                </div>
+            </div>
 
-                <div class="dashboard-stat-card overdue-card">
-                    <p>Overdue Tasks</p>
-                    <h2>8</h2>
-                    <span>Past their due date</span>
-                </div>
+        </section>
 
-            </section>
+    </main>
 
-
-            <!-- Recent Tasks -->
-
-            <section class="recent-tasks-section">
-
-                <div class="section-heading">
-
-                    <div>
-                        <h2>Recent Tasks</h2>
-                        <p>Check the latest task updates.</p>
-                    </div>
-
-                    <a href="/manage-tasks" class="all-tasks-button">
-                        View All Tasks
-                    </a>
-
-                </div>
-
-
-                <div class="table-container">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>Task Name</th>
-                                <th>Assigned To</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Due Date</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            <tr>
-                                <td>Login Page Testing</td>
-                                <td>Bhanu Pratap</td>
-                                <td>
-                                    <span class="dash-priority high">
-                                        High
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="dash-status progress">
-                                        In Progress
-                                    </span>
-                                </td>
-                                <td>15 Oct 2026</td>
-                            </tr>
-
-                            <tr>
-                                <td>Database Setup</td>
-                                <td>Rahul Kumar</td>
-                                <td>
-                                    <span class="dash-priority medium">
-                                        Medium
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="dash-status pending">
-                                        Assigned
-                                    </span>
-                                </td>
-                                <td>18 Oct 2026</td>
-                            </tr>
-
-                            <tr>
-                                <td>Dashboard Design</td>
-                                <td>Amit Sharma</td>
-                                <td>
-                                    <span class="dash-priority low">
-                                        Low
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="dash-status completed">
-                                        Completed
-                                    </span>
-                                </td>
-                                <td>10 Oct 2026</td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
+</div>
 
 </body>
-
 </html>

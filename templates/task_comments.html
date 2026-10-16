@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Comments</title>
+     <link rel="stylesheet"
+          href="{{ url_for('static', filename='task_comments.css') }}">
+</head>
+<body>
+    <h1>Task Comments & Progress</h1>
+
+    <h3>{{ task.title }}</h3>
+    <p>Status: {{ task.status }}</p>
+
+    <form action="{{ url_for('add_comment') }}" method="POST">
+        <input type="hidden" name="task_id" value="{{ task.id }}">
+        <input type="hidden" name="user_id" value="{{ user_id }}">
+
+        <textarea name="comment" rows="4"
+                  placeholder="Write your progress here..."
+                  required></textarea>
+
+        <br><br>
+        <button type="submit">Submit Comment</button>
+    </form>
+
+    <hr>
+
+    <h3>Previous Comments</h3>
+
+    {% for item in comments %}
+        <div>
+            <strong>{{ item.user_name }}</strong>
+            <p>{{ item.comment }}</p>
+            <small>{{ item.created_at }}</small>
+        </div>
+    {% else %}
+        <p>No comments added yet.</p>
+    {% endfor %}
+
+    <br>
+    <a href="{{ url_for('my_tasks', user_id=user_id) }}">
+        Back to My Tasks
+    </a>
+</body>
+</html>

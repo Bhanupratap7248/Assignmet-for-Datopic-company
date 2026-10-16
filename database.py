@@ -37,6 +37,17 @@ def create_tables():
             FOREIGN KEY (assigned_to) REFERENCES users(id)
         )
     """)
+    connection.execute("""
+    CREATE TABLE IF NOT EXISTS task_comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        task_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        comment TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (task_id) REFERENCES tasks(id),
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+""")
 
     connection.commit()
     connection.close()
